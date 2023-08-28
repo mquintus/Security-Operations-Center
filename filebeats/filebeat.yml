@@ -1,11 +1,21 @@
 filebeat.inputs:
   - type: log
     paths:
+      - /var/log/auth.log
+    fields:
+      log_type: f116_auth 
+  - type: log
+    paths:
       - /var/log/marius/apache2/access.log
       - /var/log/marius/apache2/error.log
-      - /var/log/auth.log
+    fields:
+      log_type: personal_apache
+  - type: log
+    paths:
       - /var/log/qrmacherer/apache2/access.log
       - /var/log/qrmacherer/apache2/error.log
+    fields:
+      log_type: qrmacherer_apache
 
 output.logstash:
   hosts: ["elk:5044"]
