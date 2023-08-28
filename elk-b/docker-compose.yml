@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+  elk:
+    image: sebp/elk
+    ports:
+      - "5601:5601"
+#      - "9200:9200"
+      - "5044:5044"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.elk-b.rule=Host(`elk-b.stuebs.tech`)"
+      - "traefik.http.routers.elk-b.entrypoints=websecure"
+      - "traefik.http.routers.elk-b.tls=true"
+      - "traefik.http.routers.elk-b.tls.certresolver=myLetsEncrypt"
+      - 'traefik.http.routers.elk-b.tls.domains[0].main=elk-b.stuebs.tech'
+      - 'traefik.http.services.elk-b.loadbalancer.server.port=5601'
+      - "traefik.http.routers.elk-b-http.entrypoints=web"
+      - "traefik.http.routers.elk-b-http.rule=Host(`elk-b.stuebs.tech`)"
+      - "traefik.http.routers.elk-b-http.middlewares=elk-b-https"
+      - "traefik.http.middlewares.elk-b-https.redirectscheme.scheme=https"
+    volumes:
+      - /var/log/elk-b:/var/log/:rw
+      - "./ssl/server.crt:/etc/server.crt:ro"
+      - "./ssl/server.key:/etc/server.key:ro"
+      - "../ca/ca.crt:/etc/ca.crt:ro"
+      - "./logstash-beats-input.conf:/etc/logstash/conf.d/02-beats-input.conf:ro"
+    hostname: elk
+    container_name: elk
+    networks:
+      - elastic
+
+networks:
+  elastic:
+    name: elastic
