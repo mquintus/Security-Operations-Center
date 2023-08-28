@@ -1,0 +1,7 @@
+*.key
+*.crt
+*.log
+*.csr
+*.pem
+.env
+OpenCTI-Platform
