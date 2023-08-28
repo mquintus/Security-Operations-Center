@@ -1,0 +1,1 @@
+openssl x509 -days 3650 -req -sha512 -in client.csr -CAserial ../../elk-b/ssl/serial -CA ../../ca/ca.crt -CAkey ../../ca/ca.key -out client.crt -extensions v3_req -extensions usr_cert  -extfile client.conf

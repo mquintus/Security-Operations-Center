@@ -1,0 +1,16 @@
+filebeat.inputs:
+  - type: log
+    paths:
+      - /var/log/marius/apache2/access.log
+      - /var/log/marius/apache2/error.log
+      - /var/log/auth.log
+      - /var/log/qrmacherer/apache2/access.log
+      - /var/log/qrmacherer/apache2/error.log
+
+output.logstash:
+  hosts: ["elk:5044"]
+  #hosts: ["https://172.30.0.2:5044"]
+  #ssl.certificate_authorities: ["/etc/ca.crt"]
+  #ssl.certificate: "/etc/client.crt"
+  #ssl.key: "/etc/client.key"
+
